@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P Swap - Pi to USDT</title>
+
+     <!-- Add a link to the favicon or logo on the browser tab -->
+     <link rel="icon" href="your-logo-url.ico" type="image/x-icon">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #4a2585;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+        }
+
+        .announcement {
+            background-color: #ffd700;
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #4a2585;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .rate-section {
+            text-align: center;
+            font-size: 24px;
+            color: #4a2585;
+            margin: 20px 0;
+        }
+
+        .rate-section span {
+            font-weight: bold;
+        }
+
+        .calculator input, .wallet-section input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .calculator button {
+            background-color: #4a2585;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calculator button:hover {
+            background-color: #5c30a5;
+        }
+
+        .confirmation textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            height: 40px;
+        }
+
+        .upload-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .upload-section input {
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .swap-button {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .swap-button button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #4a2585;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .swap-button button:hover {
+            background-color: #5c30a5;
+        }
+
+        .loading {
+            text-align: center;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: green;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .support {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .support a {
+            color: #4a2585;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4a2585;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .address-section, .memo-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .address-section input, .memo-section input {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .address-section button, .memo-section button {
+            background-color: #4a2585;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80%;
+            margin-top: 10px;
+        }
+
+        .address-section button:hover, .memo-section button:hover {
+            background-color: #5c30a5;
+        }
+    </style>
+    <script>
+
+function setFavicon(url) {
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.type = 'image/x-icon';
+            link.href = url;
+            document.head.appendChild(link);
+        }
+        const minPi = 50; // Minimum PI amount to swap
+
+        function updateRate() {
+            const rateElement = document.getElementById('swap-rate');
+            const min = 1.7;
+            const max = 2.7;
+            const rate = (Math.random() * (max - min) + min).toFixed(2);
+            rateElement.innerText = rate;
+        }
+
+        function calculateUSDT() {
+            const piAmount = parseFloat(document.getElementById('pi-amount').value);
+            const rate = parseFloat(document.getElementById('swap-rate').innerText);
+
+            if (piAmount < minPi) {
+                alert(`The minimum PI amount to swap is ${minPi}. Please increase your input.`);
+                return;
+            }
+
+            if (!isNaN(piAmount) && !isNaN(rate)) {
+                document.getElementById('usdt-amount').value = (piAmount * rate).toFixed(2);
+            } else {
+                alert("Please enter a valid PI amount.");
+            }
+        }
+
+        function startTransaction() {
+            const walletAddress = document.getElementById('wallet-address').value;
+            const screenshot = document.getElementById('screenshot').files[0];
+
+            if (!walletAddress) {
+                alert("Please enter your USDT TRC20 wallet address.");
+                return;
+            }
+        }
+            // Start the transaction process and validate the wallet address
+        function startTransaction() {
+            const walletAddress = document.getElementById('wallet-address').value;
+            const screenshot = document.getElementById('screenshot').files[0];
+
+            if (!walletAddress) {
+                alert("Please enter your USDT TRC20 wallet address.");
+                return;
+            }
+
+            if (!isValidTRC20(walletAddress)) {
+                alert("Invalid TRC20 wallet address format.");
+                return;
+            }
+
+            if (!screenshot) {
+                alert("Please upload your payment screenshot for additional confirmation.");
+                return;
+            }
+
+            document.querySelector('.container').style.display = 'none';
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+
+            const delay = Math.random() * (185000 - 80000) + 80000; // 1 to 3 minutes
+            setTimeout(() => {
+                loading.innerHTML = "<p>Confirming your transaction...</p>";
+            }, 50000);
+
+            setTimeout(() => {
+                loading.style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            }, delay);
+        }
+
+        function copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            document.execCommand("copy");
+            alert("Copied: " + copyText.value);
+        }
+
+
+        // Regex to validate TRC20 wallet addresses
+        function isValidTRC20(address) {
+            const regex = /^T[a-zA-Z0-9]{33}$/; // TRC20 addresses start with 'T' followed by 33 alphanumeric characters
+            return regex.test(address);
+        }
+
+        window.onload = updateRate;
+    </script>
+</head>
+<body>
+    <div class="header">
+        P2P Swap - PI to USDT
+    </div>
+
+    <div class="announcement">
+        <marquee>Swap your PI for USDT directly at live rates! Secure and fast transactions.</marquee>
+    </div>
+
+    <div class="container">
+        <div class="rate-section">
+            Current Swap Rate: <span id="swap-rate">2.00</span> USDT per 1 PI
+        </div>
+
+        <div class="calculator">
+            <input type="number" id="pi-amount" placeholder="Enter PI Amount" oninput="calculateUSDT()">
+            <input type="text" id="usdt-amount" placeholder="USDT Amount" readonly>
+            <button onclick="calculateUSDT()">Calculate</button>
+        </div>
+
+        <div class="wallet-section">
+            <p>Enter your USDT TRC20 Wallet Address for Withdrawal:</p>
+            <input type="text" id="wallet-address" placeholder="Your USDT Wallet Address">
+        </div>
+
+        <div class="upload-section">
+            <label for="screenshot">Upload  Screenshot for Confirmation:</label><br>
+            <input type="file" id="screenshot" accept="image/*">
+        </div>
+
+        <div class="address-section">
+            <p>Pi Wallet Address: <input type="text" id="pi-wallet" value="GBMRZFQAO4DC2HYXFRJJV7KTD6RYHPFN46NXZYTL6ZLDPXWDXZASAIUB" readonly>
+            <button onclick="copyToClipboard('pi-wallet')">Copy Pi Address</button></p>
+        </div>
+
+        <div class="memo-section">
+            <p>Memo: <input type="text" id="memo" value="RB58DICT" readonly>
+            <button onclick="copyToClipboard('memo')">Copy Memo</button></p>
+        </div>
+
+        <div class="swap-button">
+            <button onclick="startTransaction()">Swap Now</button>
+        </div>
+    </div>
+
+    <div class="loading" id="loading">
+        <p>Transaction in process...</p>
+        <img src="https://i.gifer.com/VAyR.gif" alt="Loading...">
+    </div>
+
+    <div class="success-message" id="success-message">
+        <p>Transaction completed successfully!  Your USDT will arrive shortly.</p>
+    </div>
+
+    <div class="support">
+        Need Help? <a href="mailto:sup.cuspiteam@gmail.com">Contact Support</a>
+    </div>
+    
+    <div class="footer">
+        © 2024 P2P Swap - PI to USDT. All rights reserved.
+    </div>
+</body>
+</html>
